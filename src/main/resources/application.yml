@@ -1,0 +1,41 @@
+
+server:
+  port: 8080
+
+message:
+  topic:
+    name: msaTopic
+
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group-id-oring
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  datasource:
+    driver-class-name: 'org.postgresql.Driver'
+    username: 'eddy'
+    url: 'jdbc:postgresql://localhost:5432/msa'
+    password: 'eddy'
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        use_sql_comments: true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        storage_engine: innodb
+    defer-datasource-initialization: true

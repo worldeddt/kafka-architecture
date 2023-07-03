@@ -1,5 +1,6 @@
 package eddy.springkafka.service;
 
+import eddy.springkafka.dto.BookerDto;
 import eddy.springkafka.entity.Booker;
 import eddy.springkafka.infra.BookerRepository;
 import eddy.springkafka.vo.BookerVo;
@@ -21,11 +22,17 @@ public class BookerService {
 
     private BookerRepository bookerRepository;
     @Transactional(rollbackOn=Exception.class)
-    public void create(BookerVo bookerVo) {
+    public BookerDto create(BookerDto bookerDto) {
         Booker booker = new Booker();
-        booker.setName(bookerVo.getName());
+        booker.setName(bookerDto.getName());
         booker.setRegister_datetime(booker.convertLocalDateNowTime());
 
-        bookerRepository.save(booker);
+        Booker createBooker = bookerRepository.save(booker);
+        BookerDto bookerDto1 = new BookerDto();
+        bookerDto1.setIndex(createBooker.getIndex());
+        bookerDto1.setName(createBooker.getName());
+        bookerDto1.setRegister_datetime(createBooker.getRegister_datetime().toString());
+
+        return bookerDto1;
     }
 }

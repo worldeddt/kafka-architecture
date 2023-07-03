@@ -21,7 +21,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
-    driver-class-name: 'org.mariadb.jdbc.Driver'
+    driver-class-name: org.mariadb.jdbc.Driver
     username: 'root'
     url: 'jdbc:mariadb://localhost:3306/msa'
     password: 'eddy'

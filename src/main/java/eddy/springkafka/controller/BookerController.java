@@ -6,6 +6,7 @@ import eddy.springkafka.service.BookerService;
 import eddy.springkafka.vo.BookerVo;
 import eddy.springkafka.vo.ResponseBooker;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value="/booker/v1")
 @AllArgsConstructor
+@Slf4j
 public class BookerController {
 
     private BookerService bookerService;
@@ -30,7 +32,24 @@ public class BookerController {
         BookerDto createBooker = bookerService.create(bookerdto);
 
         ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
-        this.kafkaProducer.send("example-user-topic", bookerdto);
+
+        log.info("test : test");
+        this.kafkaProducer.send("msa_user_topic", bookerVo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
+    }
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<ResponseBooker> update(@RequestBody BookerVo bookerVo) {
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        BookerDto bookerdto = mapper.map(bookerVo, BookerDto.class);
+        BookerDto createBooker = bookerService.create(bookerdto);
+
+        ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
+        this.kafkaProducer.send("msa_user_topic", bookerVo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
     }

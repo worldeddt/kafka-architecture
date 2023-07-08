@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eddy.springkafka.dto.BookerDto;
 import eddy.springkafka.infra.BookerRepository;
+import eddy.springkafka.vo.BookerVo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,17 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public BookerDto send(String topic, BookerDto bookerDto) {
+    public void send(String topic, BookerVo bookerVo) {
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = "";
 
         try {
-            jsonInString = mapper.writeValueAsString(bookerDto);
+            jsonInString = mapper.writeValueAsString(bookerVo);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
         this.kafkaTemplate.send(topic, jsonInString);
-        log.info("Kafka Producer send data from the Booker microservice" + bookerDto);
-
-        return bookerDto;
+        log.info("Kafka Producer send data from the Booker microservice" + bookerVo);
     }
 }

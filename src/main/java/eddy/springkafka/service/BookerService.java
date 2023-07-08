@@ -2,12 +2,12 @@ package eddy.springkafka.service;
 
 import eddy.springkafka.dto.BookerDto;
 import eddy.springkafka.entity.Booker;
+import eddy.springkafka.enumerate.BookerStatus;
 import eddy.springkafka.infra.BookerRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 
 @Slf4j
@@ -21,6 +21,11 @@ public class BookerService {
         Booker booker = new Booker();
         booker.setName(bookerDto.getName());
         booker.setRegister_datetime(booker.convertLocalDateNowTime());
+        booker.setMemo(bookerDto.getMemo());
+        booker.setLatitude(bookerDto.getLatitude());
+        booker.setLongitude(bookerDto.getLongitude());
+        booker.setMapUrl(bookerDto.getMapUrl());
+        booker.setStatus(BookerStatus.ACTIVE.toString());
 
         Booker createBooker = bookerRepository.save(booker);
         BookerDto bookerDto1 = new BookerDto();

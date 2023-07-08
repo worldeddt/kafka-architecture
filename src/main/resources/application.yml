@@ -4,11 +4,12 @@ server:
 
 message:
   topic:
-    name: my_topic_msa_booker
+    name: msa_user_topic
 
 eureka:
   instance:
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -23,7 +24,7 @@ spring:
       - localhost:9092
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: group-id-oring
+      group-id: consumerGroupId
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -38,7 +39,7 @@ spring:
     password: 'eddy'
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true

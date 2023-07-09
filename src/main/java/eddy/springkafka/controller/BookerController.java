@@ -1,6 +1,7 @@
 package eddy.springkafka.controller;
 
 import eddy.springkafka.dto.BookerDto;
+import eddy.springkafka.messagequeue.BookerProducer;
 import eddy.springkafka.messagequeue.KafkaProducer;
 import eddy.springkafka.service.BookerService;
 import eddy.springkafka.vo.BookerVo;
@@ -21,6 +22,7 @@ public class BookerController {
 
     private BookerService bookerService;
     private KafkaProducer kafkaProducer;
+    private BookerProducer bookerProducer;
 
     @PostMapping(value = "/create")
     public ResponseEntity<ResponseBooker> create(@RequestBody BookerVo bookerVo) {
@@ -31,32 +33,10 @@ public class BookerController {
         BookerDto bookerdto = mapper.map(bookerVo, BookerDto.class);
         BookerDto createBooker = bookerService.create(bookerdto);
 
-        /**
-         public Integer index;
-         public String name;
-         public String memo;
-         public String latitude;
-         public String longitude;
-         public String mapUrl;
-         public String register_datetime;
-         public String status;
-         */
-
-        /**
-         public Integer index;
-         public String name;
-         public String memo;
-         public String latitude;
-         public String longitude;
-         public String mapUrl;
-         public String register_datetime;
-         public String status;
-         */
-
         ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
         bookerVo.setBookerIndex(responseBooker.getIndex());
 
-        this.kafkaProducer.send("msa_user_topic", bookerVo);
+        this.bookerProducer.send("msa_booker_folder", bookerVo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
     }

@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 public class BookerVo {
-    public Integer userId;
+    public String userId;
+    public Integer bookerIndex;
     public String name;
     public String latitude;
     public String longitude;

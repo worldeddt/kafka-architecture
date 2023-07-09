@@ -36,6 +36,6 @@ public class KafkaProducer {
         }
 
         this.kafkaTemplate.send(topic, jsonInString);
-        log.info("Kafka Producer send data from the Booker microservice" + bookerVo);
+        log.info("Kafka Producer send data from the Booker microservice : " + bookerVo);
     }
 }

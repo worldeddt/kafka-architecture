@@ -22,7 +22,7 @@ public class Booker {
     @Column(name = "mb_name", columnDefinition = " varchar(100) default ''", nullable = false)
     private String name;
 
-    @Column(name = "mb_memo", columnDefinition = " varchar(500) default ''")
+    @Column(name = "mb_memo", columnDefinition = " varchar(1000) default ''")
     private String memo;
 
     @Column(name = "mb_latitude", columnDefinition = " varchar(100) default ''", nullable = false)

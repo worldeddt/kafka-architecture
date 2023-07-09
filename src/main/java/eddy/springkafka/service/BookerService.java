@@ -28,10 +28,16 @@ public class BookerService {
         booker.setStatus(BookerStatus.ACTIVE.toString());
 
         Booker createBooker = bookerRepository.save(booker);
+
         BookerDto bookerDto1 = new BookerDto();
         bookerDto1.setIndex(createBooker.getIndex());
         bookerDto1.setName(createBooker.getName());
         bookerDto1.setRegister_datetime(createBooker.getRegister_datetime().toString());
+        bookerDto1.setMemo(createBooker.getMemo());
+        bookerDto1.setLatitude(createBooker.getLatitude());
+        bookerDto1.setLongitude(createBooker.getLongitude());
+        bookerDto1.setMapUrl(createBooker.getMapUrl());
+        bookerDto1.setStatus(createBooker.getStatus());
 
         return bookerDto1;
     }

@@ -31,9 +31,31 @@ public class BookerController {
         BookerDto bookerdto = mapper.map(bookerVo, BookerDto.class);
         BookerDto createBooker = bookerService.create(bookerdto);
 
-        ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
+        /**
+         public Integer index;
+         public String name;
+         public String memo;
+         public String latitude;
+         public String longitude;
+         public String mapUrl;
+         public String register_datetime;
+         public String status;
+         */
 
-        log.info("test : test");
+        /**
+         public Integer index;
+         public String name;
+         public String memo;
+         public String latitude;
+         public String longitude;
+         public String mapUrl;
+         public String register_datetime;
+         public String status;
+         */
+
+        ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
+        bookerVo.setBookerIndex(responseBooker.getIndex());
+
         this.kafkaProducer.send("msa_user_topic", bookerVo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
@@ -49,6 +71,7 @@ public class BookerController {
         BookerDto createBooker = bookerService.create(bookerdto);
 
         ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
+        bookerVo.setBookerIndex(responseBooker.getIndex());
         this.kafkaProducer.send("msa_user_topic", bookerVo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);

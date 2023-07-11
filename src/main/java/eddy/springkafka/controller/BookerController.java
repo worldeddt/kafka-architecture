@@ -36,7 +36,26 @@ public class BookerController {
         ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
         bookerVo.setBookerIndex(responseBooker.getIndex());
 
-        this.bookerProducer.send("msa_booker_folder", bookerVo);
+        //매칭 테이블
+        this.bookerProducer.send("msa_booker_folder", "msa_booker_folder", bookerVo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
+    }
+
+    //connetor test 용
+    @PostMapping(value = "/create/booker")
+    public ResponseEntity<ResponseBooker> createBooker(@RequestBody BookerVo bookerVo) {
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        BookerDto bookerdto = mapper.map(bookerVo, BookerDto.class);
+        BookerDto createBooker = bookerService.create(bookerdto);
+
+        ResponseBooker responseBooker = mapper.map(createBooker, ResponseBooker.class);
+        bookerVo.setBookerIndex(responseBooker.getIndex());
+
+        this.bookerProducer.bookerSend("msa_booker", "msa_booker", bookerVo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBooker);
     }

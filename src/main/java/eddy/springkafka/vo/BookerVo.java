@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 public class BookerVo {
-    public String userId;
-    public Integer bookerIndex;
-    public String name;
-    public String latitude;
-    public String longitude;
-    public String memo;
-    public Integer folderIndex;
-    public String mapUrl;
+    private String userId;
+    private Integer bookerIndex;
+    private String name;
+    private String latitude;
+    private String longitude;
+    private String memo;
+    private Integer folderIndex;
+    private String mapUrl;
 }
